@@ -1,0 +1,35 @@
+useDynLib(atakrig, .registration=TRUE)
+import(gstat, foreach, doSNOW, snow, methods)
+importFrom(Rcpp, evalCpp)
+importFrom("methods", "is")
+importFrom("sp", "SpatialPoints", "CRS", "proj4string")
+importFrom("graphics", "layout", "legend", "lines", "mtext", "par", "plot", "plot.new")
+importFrom("stats", "median")
+importFrom("utils", "hasName", "setTxtProgressBar", "txtProgressBar")
+
+export(
+  deconvPointVgm,
+  deconvPointCrossVgm,
+  deconvPointVgmForCoKriging,
+  extractPointVgm,
+  autofitVgm,
+  plotDeconvVgm,
+
+  ataKriging,
+  ataKriging.cv,
+  ataCoKriging,
+  ataCoKriging.cv,
+  atpKriging,
+  atpCoKriging,
+
+  discretizeRaster,
+  discretizePolygon,
+  subsetDiscreteArea,
+  rbindDiscreteArea,
+  updateDiscreteAreaValue,
+
+  ataSetNumberOfThreadsForOMP,
+  ataStartCluster,
+  ataStopCluster,
+  ataIsClusterEnabled
+)
