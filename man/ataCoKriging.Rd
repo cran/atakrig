@@ -12,15 +12,15 @@ Area-to-area, area-to-point coKriging prediciton, cross-validation.
 \usage{
 ataCoKriging(x, unknownVarId, unknown, ptVgms, nmax = 10, longlat = FALSE,
     oneCondition = FALSE, meanVal = NULL, auxRatioAdj = TRUE,
-    showProgress = TRUE, nopar = FALSE, clarkAntiLog = FALSE)
+    showProgress = FALSE, nopar = FALSE, clarkAntiLog = FALSE)
 
 atpCoKriging(x, unknownVarId, unknown0, ptVgms, nmax = 10, longlat = FALSE,
     oneCondition = FALSE, meanVal = NULL, auxRatioAdj = TRUE,
-    showProgress = TRUE, nopar = FALSE)
+    showProgress = FALSE, nopar = FALSE)
 
 ataCoKriging.cv(x, unknownVarId, nfold = 10, ptVgms, nmax = 10, longlat = FALSE,
     oneCondition = FALSE, meanVal = NULL, auxRatioAdj = TRUE,
-    showProgress = TRUE, nopar = FALSE, clarkAntiLog = FALSE)
+    showProgress = FALSE, nopar = FALSE, clarkAntiLog = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

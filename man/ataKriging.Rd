@@ -10,11 +10,11 @@ Area-to-area, area-to-point ordinary Kriging prediciton, cross-validation.
 }
 \usage{
 ataKriging(x, unknown, ptVgm, nmax = 10, longlat = FALSE,
-    showProgress = TRUE, nopar = FALSE, clarkAntiLog = FALSE)
+    showProgress = FALSE, nopar = FALSE, clarkAntiLog = FALSE)
 atpKriging(x, unknown0, ptVgm, nmax = 10, longlat=FALSE,
-    showProgress=TRUE, nopar = FALSE)
+    showProgress = FALSE, nopar = FALSE)
 ataKriging.cv(x, nfold = 10, ptVgm, nmax=10, longlat = FALSE,
-    showProgress=TRUE, nopar = FALSE, clarkAntiLog = FALSE)
+    showProgress = FALSE, nopar = FALSE, clarkAntiLog = FALSE)
 }
 \arguments{
   \item{x}{
