@@ -1,4 +1,4 @@
-59d481849fe6fdfc79403417f7169e8c *DESCRIPTION
+770128cd80c4b62bee28dc8293d8a367 *DESCRIPTION
 23d891d839f8ecb179b26b989319d728 *NAMESPACE
 365c04908678016d21266cbc35fb7bb0 *R/RcppExports.R
 cddae936bc2208c615e3de3018d5160b *R/parallelsetting.r
@@ -8,14 +8,14 @@ ab0a474365d5546c2685e3a0ba558a11 *R/preparation.r
 8ca97e09faec7004ddf17b0311e88095 *R/variogramdeconv.r
 34e4330b008256fb97f58dc46b15fcdc *README.md
 3db6d72fd3c19a9d5f4636ed2a6705b9 *demo/00Index
-d48265036c2ee46cb0f50ec026a0b169 *demo/aod.r
+c2eb1aaaa903d300293c86208834db9f *demo/aod.r
 4676479513a65253ea1caa216bcf0000 *demo/runoff.r
 37a22f16f5907529bc28ad8a3a6e6f1f *inst/extdata/MOD04_3K_A2017042.tif
 e9b07204563537546afa5e96ff520367 *inst/extdata/MOD04_L2_A2017042.tif
 d382bdfa8b59331354bc3935841f6bf9 *man/ataCoKriging.Rd
-46eca4c6b8a9952d4463b87b98289fd7 *man/ataKriging.Rd
-bf0677e45fc4e450c74e856e6f55a866 *man/ataSetNumberOfThreadsForOMP.Rd
-1e1ec67795af7b460df2cc6d5d071ca7 *man/ataStartCluster.Rd
+2f5bbab504124466dec3f3a86a0a3e71 *man/ataKriging.Rd
+37ad1d779631727c5c11530b5d7b380e *man/ataSetNumberOfThreadsForOMP.Rd
+e70a7e065c5a94cae6a225889da1637b *man/ataStartCluster.Rd
 324bf12689b2150fe65fa3dac12a4f8d *man/autofitVgm.Rd
 ec671b3f8ca66447193dea5496780daa *man/deconvPointVgm.Rd
 a4883a9463698e7fe4677dcee9bc1ccf *man/discretizePolygon.Rd
@@ -28,4 +28,4 @@ e0165cbc7ff68d1a5e249e0bb22c2b38 *man/extractPointVgm.Rd
 61059660eb073d93e00e8ee054237071 *src/Makevars
 61059660eb073d93e00e8ee054237071 *src/Makevars.win
 d93f274f99a053e3d28bfe1a424e8ff7 *src/RcppExports.cpp
-9aace2d84acb5444d610ca76ed98caa7 *src/areaVgm.cpp
+4019c6e1b5d3814ca29a9805a1a13f60 *src/areaVgm.cpp
