@@ -1,6 +1,9 @@
 // [[Rcpp::plugins(openmp)]]
+#define STRICT_R_HEADERS
+#include <float.h>
 #include <Rcpp.h>
 #include <math.h>
+#include <exception>
 
 //OpenMP is not supported for macOS since R 4.0.0
 #ifdef _OPENMP
@@ -165,13 +168,13 @@ double sp_gcdist(double lon1, double lon2, double lat1, double lat2) {
 	a = 6378.137;              /* WGS-84 equatorial radius in km */
 	f = 1.0 / 298.257223563;     /* WGS-84 ellipsoid flattening factor */
 
-	if (fabs(lat1 - lat2) < DOUBLE_EPS) {
-		if (fabs(lon1 - lon2) < DOUBLE_EPS) {
+	if (fabs(lat1 - lat2) < DBL_EPSILON) {
+		if (fabs(lon1 - lon2) < DBL_EPSILON) {
 			dist = 0.0;
 			return dist;
 			/* Wouter Buytaert bug caught 100211 */
 		}
-		else if (fabs((fabs(lon1) + fabs(lon2)) - 360.0) < DOUBLE_EPS) {
+		else if (fabs((fabs(lon1) + fabs(lon2)) - 360.0) < DBL_EPSILON) {
 			dist = 0.0;
 			return dist;
 		}
@@ -488,7 +491,7 @@ DataFrame crossSvAreaCloudByPointVgm(const DataFrame& xyPointCrossVgm)
 		for (j = 0; j < g_numOfIdsY; j++) {
 			g22 = CalcWeightedVariogram(g_ptVgmModelY, g_areaDistByPtsY[j], g_areaWeightByPtsY[j]);
 
-			indexJ = i * g_numOfIdsX + j;
+			indexJ = i * g_numOfIdsY + j;
 			g12 = CalcWeightedVariogram(vgmXY, g_areaDistByPtsXY[indexJ], g_areaWeightByPtsXY[indexJ]);
 			g = g12 - (g11 + g22) / 2.0;
 

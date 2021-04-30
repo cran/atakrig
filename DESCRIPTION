@@ -1,7 +1,7 @@
 Package: atakrig
 Type: Package
 Title: Area-to-Area Kriging
-Version: 0.9.7
+Version: 0.9.8
 Authors@R: c(
     person("Maogui", "Hu", role = c("aut", "cre"), email = "humg@lreis.ac.cn"),
     person("Yanwei", "Huang", role = "ctb"),
@@ -13,12 +13,11 @@ Suggests: raster, rgdal, rtop
 License: GPL (>= 2.0)
 NeedsCompilation: yes
 Encoding: UTF-8
-LazyData: true
 LinkingTo: Rcpp
-Packaged: 2020-09-23 05:13:20 UTC; humg
+Packaged: 2021-04-30 07:54:35 UTC; humg
 Author: Maogui Hu [aut, cre],
   Yanwei Huang [ctb],
   Roger Bivand [ctb]
 Maintainer: Maogui Hu <humg@lreis.ac.cn>
 Repository: CRAN
-Date/Publication: 2020-09-28 13:20:09 UTC
+Date/Publication: 2021-04-30 08:50:20 UTC
