@@ -76,11 +76,10 @@ Goovaerts, P., 2008. Kriging and semivariogram deconvolution in the presence of 
 \examples{
 \donttest{
 library(atakrig)
-library(raster)
+library(terra)
 
 rpath <- system.file("extdata", package="atakrig")
-aod3k <- raster(file.path(rpath, "MOD04_3K_A2017042.tif"))
-aod3k <- crop(aod3k, extent(aod3k, 10,15,20,25))
+aod3k <- rast(file.path(rpath, "MOD04_3K_A2017042.tif"))
 
 aod3k.d <- discretizeRaster(aod3k, 1500)
 grid.pred <- discretizeRaster(aod3k, 1500, type = "all")
@@ -90,12 +89,12 @@ sv.ok <- deconvPointVgm(aod3k.d, model="Exp", ngroup=12, rd=0.8, fig = FALSE)
 }
 \donttest{
 library(atakrig)
-library(rgdal)
+library(sf)
 
 ## load demo data from rtop package
 #if (!require("rtop", quietly = TRUE)) message("rtop library is required for demo data.")
 rpath <- system.file("extdata", package="rtop")
-observations <- readOGR(rpath, "observations")
+observations <- read_sf(rpath, "observations")
 
 ## point-scale variogram
 obs.discrete <- discretizePolygon(observations, cellsize=1500, id="ID", value="obs")

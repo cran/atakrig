@@ -2,8 +2,12 @@
 ## Function: Deconvolution of point-scale variogram/cross-variogram.
 ## Author: Maogui Hu.
 
-# require(sp)
+# require(sf)
 # require(gstat)
+
+spDists <- function(x, y=x, longlat=FALSE) {
+  return(spDistsNN(x[,1], x[,2], y[,1], y[,2], longlat))
+}
 
 ## deconvPointVgmForCoKriging ----
 # Input:
@@ -359,7 +363,7 @@ deconvPointCrossVgm <- function(x, y, xPointVgm, yPointVgm, model="Exp", maxIter
       }
     }
   } else {
-    ll <- foreach(i = 1:length(uId1), .packages = "sp") %dopar% {
+    ll <- foreach(i = 1:length(uId1), .packages = "sf") %dopar% {
       areaIndexI <- which(x$discretePoints[,1] == uId1[i])
       areaDistByPtsX <- spDists(as.matrix(x$discretePoints[areaIndexI,2:3]),
                                 as.matrix(x$discretePoints[areaIndexI,2:3]), longlat=longlat)
@@ -369,7 +373,7 @@ deconvPointCrossVgm <- function(x, y, xPointVgm, yPointVgm, model="Exp", maxIter
     areaDistByPtsX <- ll[[1]]
     areaWeightByPtsX <- ll[[2]]
 
-    ll <- foreach(i = 1:length(uId2), .packages = "sp") %dopar% {
+    ll <- foreach(i = 1:length(uId2), .packages = "sf") %dopar% {
       areaIndexI <- which(y$discretePoints[,1] == uId2[i])
       areaDistByPtsY <- spDists(as.matrix(y$discretePoints[areaIndexI,2:3]),
                                 as.matrix(y$discretePoints[areaIndexI,2:3]), longlat=longlat)
@@ -380,7 +384,7 @@ deconvPointCrossVgm <- function(x, y, xPointVgm, yPointVgm, model="Exp", maxIter
     areaDistByPtsY <- ll[[1]]
     areaWeightByPtsY <- ll[[2]]
 
-    ll <- foreach(i = 1:length(uId1), .packages = "sp") %dopar% {
+    ll <- foreach(i = 1:length(uId1), .packages = "sf") %dopar% {
       areaDistByPtsXY <- list()
       areaWeightByPtsXY <- list()
       areaIndexI <- which(x$discretePoints[,1] == uId1[i])

@@ -83,12 +83,12 @@ Isaaks, E. H., Srivastava, R. M., 1989. An introduction to applied geostatistics
 \examples{
 \donttest{
 library(atakrig)
-library(raster)
+library(terra)
 
 ## demo data ----
 rpath <- system.file("extdata", package="atakrig")
-aod3k <- raster(file.path(rpath, "MOD04_3K_A2017042.tif"))
-aod10 <- raster(file.path(rpath, "MOD04_L2_A2017042.tif"))
+aod3k <- rast(file.path(rpath, "MOD04_3K_A2017042.tif"))
+aod10 <- rast(file.path(rpath, "MOD04_L2_A2017042.tif"))
 
 aod3k.d <- discretizeRaster(aod3k, 1500)
 aod10.d <- discretizeRaster(aod10, 1500)
@@ -99,21 +99,21 @@ aod10.d$areaValues$value <- log(aod10.d$areaValues$value)
 
 ## area-to-area Kriging ----
 # point-scale variogram from combined AOD-3k and AOD-10
-aod.combine <- rbindDiscreteArea(aod3k.d, aod10.d)
-sv.ok_combine <- deconvPointVgm(aod.combine, model="Exp", ngroup=12, rd=0.75)
+aod.combine <- rbindDiscreteArea(x = aod3k.d, y = aod10.d)
+vgm.ok_combine <- deconvPointVgm(aod.combine, model="Exp", ngroup=12, rd=0.75)
 
 # point-scale cross-variogram
 aod.list <- list(aod3k=aod3k.d, aod10=aod10.d)
-sv.ck <- deconvPointVgmForCoKriging(aod.list, model="Exp", ngroup=12, rd=0.75,
-                                    fixed.range = 6.3e4)
+aod.list <- list(aod3k=aod3k.d, aod10=aod10.d)
+vgm.ck <- deconvPointVgmForCoKriging(aod.list, model="Exp", ngroup=12, rd=0.75,
+                                    fixed.range = 9e4)
 
 # prediction
 ataStartCluster(2) # parallel with 2 nodes
-pred.ataok <- ataKriging(aod10.d, grid.pred, sv.ck$aod10, showProgress = TRUE)
-pred.ataok_combine <- ataKriging(aod.combine, grid.pred, sv.ok_combine,
-                                 showProgress = TRUE)
-pred.atack <- ataCoKriging(aod.list, unknownVarId="aod10", unknown=grid.pred,
-                           ptVgms=sv.ck, oneCondition=TRUE, auxRatioAdj=TRUE, showProgress = TRUE)
+pred.ataok <- ataKriging(aod10.d, grid.pred, vgm.ck$aod10, showProgress = TRUE)
+pred.ataok_combine <- ataKriging(aod.combine, grid.pred, vgm.ok_combine, showProgress = TRUE)
+pred.atack <- ataCoKriging(aod.list, unknownVarId="aod3k", unknown=grid.pred,
+                           ptVgms=vgm.ck, oneCondition=TRUE, auxRatioAdj=TRUE, showProgress = TRUE)
 ataStopCluster()
 
 # reverse log transform
@@ -126,13 +126,13 @@ pred.atack$pred <- exp(pred.atack$pred)
 pred.atack$var <- exp(pred.atack$var)
 
 # convert result to raster
-pred.ataok.r <- rasterFromXYZ(pred.ataok[,-1])
-pred.ataok_combine.r <- rasterFromXYZ(pred.ataok_combine[,-1])
-pred.atack.r <- rasterFromXYZ(pred.atack[,-1])
+pred.ataok.r <- rast(pred.ataok[,2:4])
+pred.ataok_combine.r <- rast(pred.ataok_combine[,2:4])
+pred.atack.r <- rast(pred.atack[,2:4])
 
 # display
-pred <- stack(aod3k, pred.ataok_combine.r$pred, pred.ataok.r$pred, pred.atack.r$pred)
+pred <- rast(list(aod3k, pred.ataok_combine.r$pred, pred.ataok.r$pred, pred.atack.r$pred))
 names(pred) <- c("aod3k","ok_combine","ataok","atack")
-spplot(pred)
+plot(pred)
 }
 }

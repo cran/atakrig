@@ -1,10 +1,11 @@
 library(atakrig)
-library(raster)
+library(terra)
+library(sp)
 
 ## part 0: data preparation, discretize data ----
 rpath <- system.file("extdata", package="atakrig")
-aod3k <- raster(file.path(rpath, "MOD04_3K_A2017042.tif"))
-aod10 <- raster(file.path(rpath, "MOD04_L2_A2017042.tif"))
+aod3k <- rast(file.path(rpath, "MOD04_3K_A2017042.tif"))
+aod10 <- rast(file.path(rpath, "MOD04_L2_A2017042.tif"))
 
 aod3k.d <- discretizeRaster(aod3k, 1500)
 aod10.d <- discretizeRaster(aod10, 1500)
@@ -20,11 +21,13 @@ vgm.ok <- autofitVgm(aod3k.pt, ngroup=12, rd=0.75, fig = TRUE)$model
 unknown.pt <- grid.pred$areaValues
 coordinates(aod3k.pt) = ~centx+centy
 coordinates(unknown.pt) = ~centx+centy
+# aod3k.pt <- st_as_sf(aod3k.pt, coords= c('centx', 'centy'))
+# unknown.pt <- st_as_sf(unknown.pt, coords= c('centx', 'centy'))
 pred.ok <- gstat::krige(value ~ 1, aod3k.pt, newdata = unknown.pt,
                         model = vgm.ok, nmax = 10)
 pred.ok$var1.pred <- exp(pred.ok$var1.pred)
 gridded(pred.ok) <- TRUE
-pred.ok.r <- raster(pred.ok[1])
+pred.ok.r <- rast(pred.ok[1])
 
 
 ## part 2: point-scale variogram deconvolution ----
@@ -49,20 +52,20 @@ pred.atack <- ataCoKriging(aod.list, unknownVarId="aod3k", unknown=grid.pred,
 pred.ataok$pred <- exp(pred.ataok$pred)
 pred.ataok_combine$pred <- exp(pred.ataok_combine$pred)
 pred.atack$pred <- exp(pred.atack$pred)
-pred.ataok.r <- rasterFromXYZ(pred.ataok[,2:4])
-pred.ataok_combine.r <- rasterFromXYZ(pred.ataok_combine[,2:4])
-pred.atack.r <- rasterFromXYZ(pred.atack[,2:4])
+pred.ataok.r <- rast(pred.ataok[,2:4])
+pred.ataok_combine.r <- rast(pred.ataok_combine[,2:4])
+pred.atack.r <- rast(pred.atack[,2:4])
 
 # display
-pred <- stack(pred.ok.r, pred.ataok_combine.r, pred.ataok.r, pred.atack.r)
+pred <- rast(list(pred.ok.r, pred.ataok_combine.r, pred.ataok.r, pred.atack.r))
 names(pred) <- c("point ok","ok_combine","ataok","atack")
-spplot(pred)
+plot(pred)
 
 
 ## part 4: cross-validation ----
 cv.ok <- c()
-ext1 <- extent(aod3k)
-ext2 <- extent(aod10)
+ext1 <- ext(aod3k)
+ext2 <- ext(aod10)
 xrange <- c(max(ext1[1],ext2[1]), min(ext1[2],ext2[2]))
 for (i in 1:10) {
   print(i)

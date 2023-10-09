@@ -13,7 +13,7 @@ discretizeRaster(x, cellsize, type = "value", psf = "equal", sigma = 2)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-a RasterLayer object.
+a SpatRaster object.
 }
   \item{cellsize}{
 cell size of discretized grid.

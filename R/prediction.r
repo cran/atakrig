@@ -2,7 +2,7 @@
 ## Function: area-to-point/area Kriging
 ## Author: Maogui Hu.
 
-# require(sp)
+# require(sf)
 # require(gstat)
 # require(FNN)
 
@@ -94,7 +94,7 @@ ataKriging <- function(x, unknown, ptVgm, nmax=10, longlat=FALSE, showProgress=F
     estResults <-
       foreach(k = 1:length(unknownAreaIds), .combine = rbind, .options.snow=list(progress=progress),
               .export = c("ataCov","calcAreaCentroid"),
-              .packages = c("sp","gstat")) %dopar% {
+              .packages = c("sf","gstat")) %dopar% {
                 krigOnce(k)
               }
     ataClusterClearObj()
@@ -168,7 +168,7 @@ ataKriging.cv <- function(x, nfold=10, ptVgm, nmax=10, longlat=FALSE, showProgre
       estResults <-
         foreach(k = 1:nrow(indexM), .combine = rbind, .options.snow=list(progress=progress),
                 .export = c("subsetDiscreteArea","ataCov","calcAreaCentroid","ataKriging","ataKriging.local"),
-                .packages = c("sp","gstat","FNN")) %dopar% {
+                .packages = c("sf","gstat","FNN")) %dopar% {
                   xknown <- subsetDiscreteArea(x, indexM[k,], revSel = TRUE)
                   unknown <- subsetDiscreteArea(x, indexM[k,])$discretePoints
                   ataKriging(xknown, unknown, ptVgm, nmax, longlat, showProgress = FALSE, nopar = TRUE, clarkAntiLog)
@@ -223,7 +223,7 @@ ataKriging.local <- function(x, unknown, ptVgm, nmax=10, longlat=FALSE, showProg
     estResults <-
       foreach(k = 1:length(unknownAreaIds), .combine = rbind, .options.snow=list(progress=progress),
               .export = c("ataKriging","ataCov","calcAreaCentroid","extractPointVgm"),
-              .packages = c("sp","gstat")) %dopar% {
+              .packages = c("sf","gstat")) %dopar% {
                 krigOnce(k)
               }
     ataClusterClearObj()
@@ -396,7 +396,7 @@ ataCoKriging <- function(x, unknownVarId, unknown, ptVgms, nmax=10, longlat=FALS
     estResults <-
       foreach(k = 1:length(unknownAreaIds), .combine = rbind, .options.snow=list(progress=progress),
               .export = c("D","meanVal","crossName","ataCov","calcAreaCentroid"),
-              .packages = c("sp","gstat")) %dopar% {
+              .packages = c("sf","gstat")) %dopar% {
                 krigOnce(k)
               }
     ataClusterClearObj()
@@ -476,7 +476,7 @@ ataCoKriging.cv <- function(x, unknownVarId, nfold=10, ptVgms, nmax=10, longlat=
       estResults <-
         foreach(k = 1:nrow(indexM), .combine = rbind, .options.snow=list(progress=progress),
                 .export = c("crossName","ataCov","calcAreaCentroid","subsetDiscreteArea","ataCoKriging","ataCoKriging.local"),
-                .packages = c("sp","gstat","FNN")) %dopar% {
+                .packages = c("sf","gstat","FNN")) %dopar% {
                   xknown[[unknownVarId]] <- subsetDiscreteArea(x[[unknownVarId]], indexM[k,], revSel = TRUE)
                   unknown <- subsetDiscreteArea(x[[unknownVarId]], indexM[k,])$discretePoints
                   ataCoKriging(xknown, unknownVarId, unknown, ptVgms, nmax, longlat, oneCondition, meanVal,
@@ -559,7 +559,7 @@ ataCoKriging.local <- function(x, unknownVarId, unknown, ptVgms, nmax=10, longla
     estResults <-
       foreach(k = 1:length(unknownAreaIds), .combine = rbind, .options.snow=list(progress=progress),
               .export = c("x","ataCoKriging","crossName","ataCov","calcAreaCentroid"),
-              .packages = c("sp","gstat")) %dopar% {
+              .packages = c("sf","gstat")) %dopar% {
         krigOnce(k)
               }
     ataClusterClearObj()

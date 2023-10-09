@@ -66,12 +66,12 @@ Skøien, J. O. and G. Blöschl, et al., 2014. rtop: an R package for interpolati
 \examples{
 \donttest{
 library(atakrig)
-library(rgdal)
+library(sf)
 
 ## load demo data from rtop package ----
 if (!require("rtop", quietly = TRUE)) message("rtop library is required for demo data.")
 rpath <- system.file("extdata", package="rtop")
-observations <- readOGR(rpath, "observations")
+observations <- read_sf(rpath, "observations")
 observations$obs <- observations$QSUMMER_OB/observations$AREASQKM
 
 ## point-scale variogram ----
@@ -88,7 +88,7 @@ mean(abs(pred.cv$obs - pred.cv$pred))	# MAE
 sqrt(mean((pred.cv$obs - pred.cv$pred)^2))	# RMSE
 
 ## prediction ----
-predictionLocations <- readOGR(rpath, "predictionLocations")
+predictionLocations <- read_sf(rpath, "predictionLocations")
 pred.discrete <- discretizePolygon(predictionLocations, cellsize = 1500, id = "ID")
 pred <- ataKriging(obs.discrete, pred.discrete, pointsv$pointVariogram)
 }

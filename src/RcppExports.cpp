@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // variogramLineSimple
 RObject variogramLineSimple(const DataFrame& vgmModel, const NumericVector& dist, bool bCov);
 RcppExport SEXP _atakrig_variogramLineSimple(SEXP vgmModelSEXP, SEXP distSEXP, SEXP bCovSEXP) {
